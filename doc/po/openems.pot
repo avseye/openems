@@ -1,0 +1,1042 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2018-04-11 15:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title =
+#: openems.adoc:1
+#, no-wrap
+msgid "OpenEMS: Open Energy Management System"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:4
+msgid "Stefan Feilmeier (c) 2017 FENECON GmbH Version 2018.4"
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:12
+#, no-wrap
+msgid "Introduction"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:17
+msgid ""
+"OpenEMS is a modular platform for energy management applications.  It was "
+"developed around the requirements of controlling, monitoring and integrating "
+"energy storage systems together with renewable energy sources and "
+"complementary devices and services.  The source code is available on "
+"http://openems.io."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:18
+#, no-wrap
+msgid "OpenEMS IoT stack"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:21
+msgid "The OpenEMS 'Internet of Things' stack ist built of three parts:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:23
+#, no-wrap
+msgid "*OpenEMS Edge* runs on site and actually controls the devices\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:24
+#, no-wrap
+msgid "*OpenEMS UI* is the generic user interface\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:25
+#, no-wrap
+msgid ""
+"*OpenEMS Backend* runs on a (cloud) server, connects the decentralized Edge "
+"systems and provides monitoring and control via internet\n"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:26
+#, no-wrap
+msgid "Features"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:29
+msgid ""
+"The OpenEMS software architecture was designed to leverage some features "
+"that are required as a modern and flexible Energy Management System:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:31
+msgid "Fast, PLC-like control of battery inverters and other devices"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:32
+msgid ""
+"Easily extendable due to the use of modern programming languages and modular "
+"architecture"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:33
+msgid ""
+"Wide range of supported devices - (battery) inverters, meters, etc. - and "
+"protocols"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:34
+msgid "Modern web-based real-time user interface"
+msgstr ""
+
+#. type: Block title
+#: openems.adoc:35 openems.adoc:37
+#, no-wrap
+msgid "Screenshots of OpenEMS UI"
+msgstr ""
+
+#. type: Target for macro image
+#: openems.adoc:36
+#, no-wrap
+msgid "ui-screenshots.png"
+msgstr ""
+
+#. type: Target for macro image
+#: openems.adoc:38
+#, no-wrap
+msgid "ui-screenshots2.png"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:40
+#, no-wrap
+msgid "Open Source philosophy"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:44
+msgid ""
+"OpenEMS is mainly developed by https://www.fenecon.de[FENECON GmbH] in "
+"Germany, a company specialized in manufacturing and project development of "
+"energy storage systems.  We are inviting third parties - like Universities, "
+"hardware manufacturers, software companies, commercial and private "
+"owners,... - to use OpenEMS for their own projects and are glad to support "
+"them with their first steps. In any case if you are interested in OpenEMS "
+"our development team would be glad to hear from you at fems@fenecon.de."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:45
+#, no-wrap
+msgid "Development guidelines"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:48
+msgid ""
+"Development follows the "
+"https://de.wikipedia.org/wiki/Agile_Softwareentwicklung[Agile Manifesto] and "
+"is driven by the https://de.wikipedia.org/wiki/Scrum[Scrum] methodology. The "
+"source code is available online at http://openems.io and on "
+"https://github.com/OpenEMS/openems[GitHub]. New versions are released after "
+"every Scrum Sprint and https://github.com/OpenEMS/openems/releases[tagged] "
+"accordingly. Version numbers are built using the pattern `year.number of "
+"sprint`, e.g. version `2018.4` is the result of the fourth sprint in "
+"2018. Git development follows the "
+"https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow[Gitflow "
+"Workflow], so the https://github.com/OpenEMS/openems/tree/master/[master "
+"branch] always holds the stable release, while active development is "
+"happening on the https://github.com/OpenEMS/openems/tree/develop[develop "
+"branch] or in separate feature branches."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:50
+msgid ""
+"For Edge and Backend Java development we recommend the "
+"https://www.eclipse.org/ide/[Eclipse IDE]. For the UI (TypeScript + "
+"Angular.io) we recommend https://code.visualstudio.com/[Visual Studio "
+"Code]. The documentation is generated using "
+"http://asciidoc.org[AsciiDoc]. For handling git we recommend "
+"https://www.sourcetreeapp.com/[Sourctree by Atlassian]."
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:51
+#, no-wrap
+msgid "System architecture"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:54
+msgid ""
+"OpenEMS is generally not used on its own (the exception is a simulated "
+"development environment - see <<_development_getting_started>> below.), but "
+"in combination with external hardware and software components. To give you a "
+"brief overview, this is how OpenEMS is used in production setups:"
+msgstr ""
+
+#. type: Block title
+#: openems.adoc:55
+#, no-wrap
+msgid "OpenEMS system architecture"
+msgstr ""
+
+#. type: Target for macro image
+#: openems.adoc:56
+#, no-wrap
+msgid "system-architecture.png"
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:58
+#, no-wrap
+msgid "Development: Getting Started"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:61
+msgid ""
+"This quick 'Getting Started' should help you in setting up a complete "
+"development environment. On finishing you will have a working instance of "
+"OpenEMS Edge, with simulated energy storage and photovoltaic system, as well "
+"as an OpenEMS UI for monitoring the simulator in a browser application."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:62
+#, no-wrap
+msgid "Get the source code"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:65
+msgid "Download a [git client](https://git-scm.com/) and install it."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:67
+msgid "Recommendation: https://www.sourcetreeapp.com/[Sourctree by Atlassian]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:69
+msgid "Clone the OpenEMS git repository"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:71
+msgid ""
+"In Sourcetree open btn:[File] -> btn:[Clone], enter the git repository path "
+"`https://github.com/OpenEMS/openems.git` and press btn:[Clone]."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:73
+msgid ""
+"Alternatively: with the git command line utility execute `git clone "
+"https://github.com/OpenEMS/openems.git`"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:75
+msgid "Git is downloading the complete source code for you."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:76
+#, no-wrap
+msgid "Setup Eclipse IDE for OpenEMS Edge and Backend"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:79
+msgid "Download [Eclipse for Java](https://www.eclipse.org/), install and start it"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:80
+msgid "Install [BndTools](http://bndtools.org/) in Eclipse:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:82
+msgid ""
+"Menu: btn:[Help] → btn:[Eclipse Marketplace...] → btn:[Find:] → enter "
+"btn:[BndTools] → press btn:[Install]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:84
+msgid "Import OSGi projects:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:86
+msgid ""
+"Menu: btn:[File] → btn:[Import...] → btn:[Bndtools] → btn:[Existing Bnd "
+"Workspace] → Root directory: btn:[Browse...] → select the directory with the "
+"source code → btn:[OK] → btn:[Finish] → \"Switch to Bndtools perspective?\" "
+"btn:[yes]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:88
+msgid ""
+"If Eclipse shows errors: because of a bug in Bndtools it might be necessary "
+"to manually trigger a build. Doubleclick the `cnf` project → doubleclick "
+"`build.bnd` → click on btn:[Reload] in bottom right of the window. The "
+"errors should all disappear."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:90
+msgid "Import Java projects:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:92
+msgid ""
+"Menu: btn:[File] → btn:[Import...] → btn:[General] → btn:[Existing Projects "
+"into Workspace] → \"Select root directory:\" btn:[Browse...] → select the "
+"directory with the source code → btn:[Finish]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:94
+msgid "Eclipse should have successfully built OpenEMS Edge and Backend."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:95
+#, no-wrap
+msgid "Run OpenEMS Edge with a simulator"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:98
+msgid ""
+"OpenEMS is using a global JSON configuration file in "
+"`etc/openems.d/config.json`."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:100
+msgid "Apply the simulator template configuration."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:102
+msgid ""
+"Open the `openems` project and copy `template/Simulator.json` to "
+"`etc/openems.d/config.json`"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:104
+msgid ""
+"Right click on `src/io.openems/App.java` and select btn:[Run As...] → "
+"btn:[Java Application]."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:106
+msgid "You should see OpenEMS Edge running in the console."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:107
+#, no-wrap
+msgid "Setup Visual Studio Code for OpenEMS UI"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:110
+msgid "Download [node.js LTS](https://nodejs.org) and install it."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:111
+msgid ""
+"Download [Visual Studio Code](https://code.visualstudio.com/), install and "
+"start it."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:112
+msgid "Open OpenEMS UI in Visual Studio Code:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:114
+msgid ""
+"Menu: btn:[File] → btn:[Open directory...] → Select the `ui` directory "
+"inside the downloaded source code → btn:[Select directory]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:116
+msgid "Open the integrated terminal:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:118
+msgid "Menu: btn:[Show] → btn:[Integrated terminal]"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:120
+msgid "Install [Angular CLI](https://cli.angular.io/):"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:122
+msgid "`npm install -g @angular/cli`"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:124
+msgid "Install dependencies:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:126
+msgid "`npm install`"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:128
+msgid "Run OpenEMS UI:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:130
+msgid "`ng serve`"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:132
+msgid "Open a browser at http://localhost:4200"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:134
+msgid ""
+"You should be able to login to OpenEMS UI (default password `guest` or "
+"`admin`) and see the simulated data."
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:135
+#, no-wrap
+msgid "OpenEMS Edge"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:138
+msgid ""
+"OpenEMS Edge is the core component of the energy management that runs "
+"on-site and is responsible for communicating with and controling of external "
+"hardware like battery systems, inverters, meters and so on."
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:139 openems.adoc:357 openems.adoc:366
+#, no-wrap
+msgid "Architecture"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:142
+msgid ""
+"The OpenEMS Edge software architecture is abstracting device communication "
+"and control algorithms in a way to provide maximum flexibility; e.g. the "
+"same algorithms can be used with different inverters."
+msgstr ""
+
+#. type: Block title
+#: openems.adoc:143
+#, no-wrap
+msgid "OpenEMS Edge software architecture"
+msgstr ""
+
+#. type: Target for macro image
+#: openems.adoc:144
+#, no-wrap
+msgid "edge-architecture.png"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:152
+msgid ""
+"The architecture diagram shows *Hardware* - battery systems, inverters, "
+"meters,... - or external services at the bottom.  A *Bridge* is the "
+"connection layer to a physical hardware device and implements communication "
+"protocols like Modbus/TCP, Modbus/RTU or other vendor specific "
+"implementations.  There can be several devices per Bridge.  A *Device* "
+"represents an external hardware or service as its 'digital twin'.  A "
+"*Nature* represents a specific class of hardware or service with a defined "
+"set of Channels.  A *Channel* is a single piece of information, which can be "
+"readonly (State of charge of a battery, current active power,…) and writable "
+"(set active power, switch of relay output)."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:154
+msgid ""
+"Example: A FENECON Pro storage system is integrating an energy storage "
+"system (\"Ess\" nature) as well as a \"Meter\"-Nature for a connected "
+"photovoltaics installation. Through the \"Ess\" nature it provides "
+"information about the battery like the current state of charge and "
+"charging/discharging power. Through the \"Meter\" nature it provides "
+"information about the current photovoltaic production power."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:156
+msgid ""
+"In fact every component in OpenEMS Edge is a *Thing* with 'Channels' that "
+"are used for abstracting the underlying hardware device or for configuring "
+"the Thing itself."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:160
+msgid ""
+"The OpenEMS Edge framework provides internal services that help all the "
+"components to interact with each other.  Examples for those services are the "
+"*Databus*, *ThingRepository* and *ClassRepository*.  Throughout the source "
+"code you will find Java Reflection and Annotations used in order to ease the "
+"implementation and integration of all the components."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:163
+msgid ""
+"The actual business logic is in each *Controller*, which is leveraging "
+"Channels to execute a specific, encapsulated task, like 'switch a relay "
+"output when a certain threshold is exceeded'.  Some of the most common "
+"Controllers are:"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:165
+#, no-wrap
+msgid ""
+"*AvoidTotalDischargeController* takes care of the secure function of a "
+"storage system by avoiding total discharging and force charging the battery "
+"from the grid if necessary.\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:167
+#, no-wrap
+msgid "*BalancingController* optimizes the self-consumption at the grid meter\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:169
+#, no-wrap
+msgid ""
+"*ApiController*-implementations receive commands from external control "
+"units\n"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:170 openems.adoc:359 openems.adoc:368
+#, no-wrap
+msgid "Configuration"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:173
+msgid ""
+"OpenEMS Edge is using a central configuration file in "
+"`etc/openems.d/config.json` where all its components - Bridge, Device, "
+"Nature, Scheduler, Controller and Peristence - are defined and configured."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:175
+msgid ""
+"As an example we will discuss a stripped down configuration of a 'FENECON "
+"Commercial' energy storage system. More example configurations can be found "
+"in the https://github.com/OpenEMS/openems/tree/master/setup/templates[setup "
+"templates]."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:180
+#, no-wrap
+msgid ""
+"{\n"
+"\t\"things\": [ <1>\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:182
+msgid "all Bridges, Devices and Natures are defined within the \"things\" object."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:199
+#, no-wrap
+msgid ""
+"\t\t{\n"
+"\t\t\t\"class\": \"io.openems.impl.protocol.modbus.ModbusTcp\", <1>\n"
+"\t\t\t\"ip\": \"10.4.0.15\", <2>\n"
+"\t\t\t\"devices\": [ <3>\n"
+"\t\t\t\t{\n"
+"\t\t\t\t\t\"class\": "
+"\"io.openems.impl.device.commercial.FeneconCommercialAC\", <4>\n"
+"\t\t\t\t\t\"modbusUnitId\": 100, <5>\n"
+"\t\t\t\t\t\"ess\": { <6>\n"
+"\t\t\t\t\t\t\"id\": \"ess0\", <7>\n"
+"\t\t\t\t\t\t\"minSoc\": 15\n"
+"\t\t\t\t\t}\n"
+"\t\t\t\t}\n"
+"\t\t\t]\n"
+"\t\t},\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:201
+msgid ""
+"defines a Modbus/TCP bridge by its Java implementation class (TODO: link to "
+"ModbusTcp)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:202
+msgid "sets the target IP address of the Modbus/TCP device"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:203
+msgid "Devices are defined within the \"devices\" array of a bridge"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:204
+msgid ""
+"defines a 'FENECON Commercial AC' Device by its Java implementation class "
+"(TODO: link to FeneconCommercialAC)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:205
+msgid "sets the modbus unit ID (which is always 100 for a FENECON Commercial)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:206
+msgid "configures the \"Ess\" nature of the Device"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:207
+msgid ""
+"sets the unique ID \"ess0\" for this nature. This ID is going to be used "
+"later in the Controllers."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:228
+#, no-wrap
+msgid ""
+"\t\t{\n"
+"\t\t\t\"class\": \"io.openems.impl.protocol.modbus.ModbusRtu\", <1>\n"
+"\t\t\t\"serialinterface\": \"/dev/ttyUSB0\", <2>\n"
+"\t\t\t\"baudrate\": 9600,\n"
+"\t\t\t\"databits\": 8,\n"
+"\t\t\t\"parity\": \"none\",\n"
+"\t\t\t\"stopbits\": 1,\n"
+"\t\t\t\"devices\": [\n"
+"\t\t\t\t{\n"
+"\t\t\t\t\t\"class\": \"io.openems.impl.device.socomec.Socomec\", <3>\n"
+"\t\t\t\t\t\"modbusUnitId\": 5,\n"
+"\t\t\t\t\t\"meter\": { <4>\n"
+"\t\t\t\t\t\t\"id\": \"meter0\", <5>\n"
+"\t\t\t\t\t\t\"type\": \"grid\"\n"
+"\t\t\t\t\t}\n"
+"\t\t\t\t}\n"
+"\t\t\t]\n"
+"\t\t}\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:230
+msgid ""
+"defines a Modbus/RTU bridge by its Java implementation class (TODO: link to "
+"ModbusRtu)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:231
+msgid ""
+"configures the RS485-connection (interface, baudrate, databits, parity, "
+"stopbits)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:232
+msgid ""
+"defines a 'Socomec Meter' Device by its Java implementation class (TODO: "
+"link to Socomec)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:233
+msgid "configures the \"Meter\" nature of the Device"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:234
+msgid ""
+"sets the unique ID \"meter0\" for this nature. This ID is going to be used "
+"later in the Controllers."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:241
+#, no-wrap
+msgid ""
+"\t],\n"
+"\t\"scheduler\": { <1>\n"
+"\t\t\"class\": \"io.openems.impl.scheduler.SimpleScheduler\", <2>\n"
+"\t\t\"controllers\": [\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:243
+msgid ""
+"the Scheduler and all Controllers are defined within the \"scheduler\" "
+"object."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:244
+msgid "defines the Scheduler by its Java implementation class"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:246
+msgid ""
+"This configuration uses the 'SimpleScheduler' which is executing the "
+"Controllers according to their 'priority' - starting with the highest "
+"value. (TODO: link to SimpleScheduler)"
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:255
+#, no-wrap
+msgid ""
+"\t\t\t{\n"
+"\t\t\t\t\"priority\": 150, <1>\n"
+"\t\t\t\t\"class\": "
+"\"io.openems.impl.controller.debuglog.DebugLogController\", <2>\n"
+"\t\t\t\t\"esss\": \"ess0\", <3>\n"
+"\t\t\t\t\"meters\": \"meter0\"\n"
+"\t\t\t},\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:257
+msgid ""
+"sets the 'priority' of this Controller. '150' is higher than any other "
+"priority in this configuration, so it will be executed first."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:258
+msgid ""
+"defines the 'DebugLogController' by its Java implementation class (TODO: "
+"link to DebugLogController)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:259
+msgid "this Controller can be configured to take certain IDs for its output."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:264
+msgid ""
+"The 'DebugLogController' is helpful for debugging as it logs information "
+"about each Nature on every execution. The configuration above will produce "
+"continuous outputs like this: + `[INFO ] [g.DebugLogController:106] + meter0 "
+"[L:60 W;-2740 var|L1:0 W;0 var|L2:0 W;0 var|L3:0 W;0 var] + ess0 [SOC:99 "
+"%|L:600 W;300 var|Allowed:-12000 W;40000 W|GridMode:On-Grid]`"
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:272
+#, no-wrap
+msgid ""
+"\t\t\t{\n"
+"\t\t\t\t\"priority\": 100,\n"
+"\t\t\t\t\"class\": "
+"\"io.openems.impl.controller.symmetric.avoidtotaldischarge.AvoidTotalDischargeController\", "
+"<1>\n"
+"\t\t\t\t\"esss\": \"ess0\"\n"
+"\t\t\t},\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:274
+msgid ""
+"defines the 'AvoidTotalDischargeController' by its Java implementation class "
+"(TODO: link to AvoidTotalDischargeController)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:276
+msgid ""
+"The 'AvoidTotalDischargeController' takes care of the secure function of a "
+"storage system by avoiding total discharging and force charging the battery "
+"from the grid if necessary."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:285
+#, no-wrap
+msgid ""
+"\t\t\t{\n"
+"\t\t\t\t\"priority\": 50,\n"
+"\t\t\t\t\"class\": "
+"\"io.openems.impl.controller.symmetric.balancing.BalancingController\", "
+"<1>\n"
+"\t\t\t\t\"esss\": \"ess0\",\n"
+"\t\t\t\t\"meter\": \"meter0\"\n"
+"\t\t\t}\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:287
+msgid ""
+"defines the 'BalancingController' by its Java implementation class (TODO: "
+"link to BalancingController)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:289
+msgid ""
+"The 'BalancingController' optimizes the self-consumption of a local electric "
+"generator like a photovoltaics installation. It watches the grid-meter and "
+"tries to keep it on zero by charging or discharching the battery."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:295
+#, no-wrap
+msgid ""
+"\t\t]\n"
+"\t},\n"
+"\t\"persistence\": [ <1>\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:297
+msgid "the Persistence services are defined within the \"persistence\" array."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:305
+#, no-wrap
+msgid ""
+"\t\t{\n"
+"\t\t\t\"class\": "
+"\"io.openems.impl.persistence.influxdb.InfluxdbPersistence\", <1>\n"
+"\t\t\t\"ip\": \"127.0.0.1\", <2>\n"
+"\t\t\t\"fems\": \"0\" <3>\n"
+"\t\t},\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:307
+msgid ""
+"defines the 'InfluxdbPersistence' by its Java implementation class (TODO: "
+"link to InfluxdbPersistence)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:308
+msgid "sets the IP address of the InfluxDB server."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:309
+msgid ""
+"sets the \"fems\"-ID which allows multiple OpenEMS instances to store data "
+"to the same InfluxDB."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:311
+msgid ""
+"The 'InfluxdbPersistence' stores the continuous data of all Channels in an "
+"https://www.influxdata.com/[InfluxDB]."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:318
+#, no-wrap
+msgid ""
+"\t\t{\n"
+"\t\t\t\"class\": \"io.openems.impl.persistence.fenecon.FeneconPersistence\", "
+"<1>\n"
+"\t\t\t\"apikey\": \"###APIKEY###\" <2>\n"
+"\t\t}\n"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:320
+msgid ""
+"defines the 'FeneconPersistence' by its Java implementation class (TODO: "
+"link to FeneconPersistence)"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:321
+msgid "sets the apikey which authenticates this OpenEMS at the Backend"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:323
+msgid ""
+"The 'FeneconPersistence' is handling the connection to the OpenEMS Backend "
+"server."
+msgstr ""
+
+#. type: delimited block -
+#: openems.adoc:328
+#, no-wrap
+msgid ""
+"\t]\n"
+"}\n"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:330
+#, no-wrap
+msgid "Hardware Abstraction"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:333
+msgid "Bridges, Devices & Natures"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:334
+#, no-wrap
+msgid "Implemented hardware"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:336
+#, no-wrap
+msgid "Connecting a Modbus Device"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:338
+#, no-wrap
+msgid "Scheduler"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:340
+#, no-wrap
+msgid "Existing Schedulers"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:342
+#, no-wrap
+msgid "Developing a Scheduler"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:344
+#, no-wrap
+msgid "Controller"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:346
+#, no-wrap
+msgid "Existing Controllers"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:348
+msgid "APIs, Websocket: Protocol"
+msgstr ""
+
+#. type: Title ====
+#: openems.adoc:349
+#, no-wrap
+msgid "Developing a Controller"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:351
+#, no-wrap
+msgid "Persistence"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:353
+msgid "..."
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:354
+msgid "Grafana"
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:355
+#, no-wrap
+msgid "UI"
+msgstr ""
+
+#. type: Title ===
+#: openems.adoc:361
+#, no-wrap
+msgid "FAQ"
+msgstr ""
+
+#. type: Plain text
+#: openems.adoc:363
+msgid "negative consumption"
+msgstr ""
+
+#. type: Title ==
+#: openems.adoc:364
+#, no-wrap
+msgid "Backend"
+msgstr ""

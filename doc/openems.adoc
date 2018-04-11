@@ -1,0 +1,478 @@
+= OpenEMS: Open Energy Management System
+Stefan Feilmeier (c) 2017 FENECON GmbH
+Version 2018.4
+:sectnums:
+:toc:
+:toclevels: 4
+:experimental:
+:keywords: AsciiDoc
+:source-highlighter: highlight.js
+:imagesdir: ./img
+:icons: font
+
+== Introduction
+
+OpenEMS is a modular platform for energy management applications.
+It was developed around the requirements of controlling, monitoring and integrating energy storage systems together with renewable energy sources and complementary devices and services.
+The source code is available on http://openems.io.
+
+=== OpenEMS IoT stack
+
+The OpenEMS 'Internet of Things' stack ist built of three parts:
+
+ * *OpenEMS Edge* runs on site and actually controls the devices
+ * *OpenEMS UI* is the generic user interface
+ * *OpenEMS Backend* runs on a (cloud) server, connects the decentralized Edge systems and provides monitoring and control via internet
+
+=== Features
+
+The OpenEMS software architecture was designed to leverage some features that are required as a modern and flexible Energy Management System:
+
+ * Fast, PLC-like control of battery inverters and other devices
+ * Easily extendable due to the use of modern programming languages and modular architecture
+ * Wide range of supported devices - (battery) inverters, meters, etc. - and protocols
+ * Modern web-based real-time user interface
+
+.Screenshots of OpenEMS UI
+image::ui-screenshots.png[Screenshots of OpenEMS UI]
+.Screenshots of OpenEMS UI
+image::ui-screenshots2.png[Screenshots of OpenEMS UI]
+
+=== Open Source philosophy
+
+OpenEMS is mainly developed by https://www.fenecon.de[FENECON GmbH] in Germany, a company specialized in manufacturing and project development of energy storage systems. 
+We are inviting third parties - like Universities, hardware manufacturers, software companies, commercial and private owners,... - to use OpenEMS for their own projects and are glad to support them with their first steps. In any case if you are interested in OpenEMS our development team would be glad to hear from you at fems@fenecon.de.
+
+=== Development guidelines
+
+Development follows the https://de.wikipedia.org/wiki/Agile_Softwareentwicklung[Agile Manifesto icon:external-link[]] and is driven by the https://de.wikipedia.org/wiki/Scrum[Scrum] methodology. The source code is available online at http://openems.io and on https://github.com/OpenEMS/openems[GitHub icon:github[]]. New versions are released after every Scrum Sprint and https://github.com/OpenEMS/openems/releases[tagged icon:github[]] accordingly. Version numbers are built using the pattern `year.number of sprint`, e.g. version `2018.4` is the result of the fourth sprint in 2018. Git development follows the https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow[Gitflow Workflow], so the https://github.com/OpenEMS/openems/tree/master/[master branch icon:github[]] always holds the stable release, while active development is happening on the https://github.com/OpenEMS/openems/tree/develop[develop branch icon:github[]] or in separate feature branches.
+
+For Edge and Backend Java development we recommend the https://www.eclipse.org/ide/[Eclipse IDE icon:external-link[]]. For the UI (TypeScript + Angular.io) we recommend https://code.visualstudio.com/[Visual Studio Code icon:external-link[]]. The documentation is generated using http://asciidoc.org[AsciiDoc icon:external-link[]]. For handling git we recommend https://www.sourcetreeapp.com/[Sourctree by Atlassian icon:external-link[]].
+
+== System architecture
+
+OpenEMS is generally not used on its own (the exception is a simulated development environment - see <<_development_getting_started>> below.), but in combination with external hardware and software components. To give you a brief overview, this is how OpenEMS is used in production setups:
+
+.OpenEMS system architecture
+image::system-architecture.png[OpenEMS system architecture]
+
+== Development: Getting Started
+
+This quick 'Getting Started' should help you in setting up a complete development environment. On finishing you will have a working instance of OpenEMS Edge, with simulated energy storage and photovoltaic system, as well as an OpenEMS UI for monitoring the simulator in a browser application.
+
+=== Get the source code
+
+. Download a https://git-scm.com[git client icon:external-link[]] and install it.
+
+.. Recommendation: https://www.sourcetreeapp.com/[Sourctree by Atlassian icon:external-link[]]
+
+. Clone the OpenEMS git repository
+
+.. In Sourcetree open btn:[File] -> btn:[Clone], enter the git repository path `https://github.com/OpenEMS/openems.git` and press btn:[Clone].
+
+.. Alternatively: with the git command line utility execute `git clone https://github.com/OpenEMS/openems.git`
+
+. Git is downloading the complete source code for you.
+
+=== Setup Eclipse IDE for OpenEMS Edge and Backend
+
+. Download https://www.eclipse.org[Eclipse for Java icon:external-link[]], install and start it
+. Install http://bndtools.org[BndTools icon:external-link[]] in Eclipse:
++
+Menu: btn:[Help] →  btn:[Eclipse Marketplace...] → btn:[Find:] → enter btn:[BndTools] → press btn:[Install]
+
+. Import OSGi projects:
++
+Menu: btn:[File] →  btn:[Import...] → btn:[Bndtools] → btn:[Existing Bnd Workspace] → Root directory: btn:[Browse...] → select the directory with the source code → btn:[OK] → btn:[Finish] → "Switch to Bndtools perspective?" btn:[yes] 
++
+NOTE: If Eclipse shows errors: because of a bug in Bndtools it might be necessary to manually trigger a build. Doubleclick the `cnf` project → doubleclick `build.bnd` → click on btn:[Reload] in bottom right of the window. The errors should all disappear.
+
+. Import Java projects:
++
+Menu: btn:[File] → btn:[Import...] → btn:[General] → btn:[Existing Projects into Workspace] → "Select root directory:" btn:[Browse...] → select the directory with the source code → btn:[Finish]
+
+. Eclipse should have successfully built OpenEMS Edge and Backend.
+
+=== Run OpenEMS Edge with a simulator
+
+OpenEMS is using a global JSON configuration file in `etc/openems.d/config.json`.
+
+. Apply the simulator template configuration.
++
+Open the `openems` project and copy `template/Simulator.json` to `etc/openems.d/config.json`
+
+. Right click on `src/io.openems/App.java` and select btn:[Run As...] → btn:[Java Application].
+
+. You should see OpenEMS Edge running in the console.
+
+=== Setup Visual Studio Code for OpenEMS UI
+
+. Download https://nodejs.org[node.js LTS icon:external-link[]] and install it.
+. Download https://code.visualstudio.com/[Visual Studio Code icon:external-link[]], install and start it.
+. Open OpenEMS UI in Visual Studio Code:
++
+Menu: btn:[File] → btn:[Open directory...] → Select the `ui` directory inside the downloaded source code → btn:[Select directory]
+
+. Open the integrated terminal:
++
+Menu: btn:[Show] → btn:[Integrated terminal]
+
+. Install https://cli.angular.io/[Angular CLI icon:external-link[]]:
++
+`npm install -g @angular/cli`
+
+. Install dependencies:
++
+`npm install`
+    
+. Run OpenEMS UI:
++
+`ng serve`
+
+. Open a browser at http://localhost:4200
+
+. You should be able to login to OpenEMS UI (default password `guest` or `admin`) and see the simulated data.
+
+== OpenEMS Edge
+
+OpenEMS Edge is the core component of the energy management that runs on-site and is responsible for communicating with and controling of external hardware like battery systems, inverters, meters and so on.
+
+=== Architecture
+
+The OpenEMS Edge software architecture is abstracting device communication and control algorithms in a way to provide maximum flexibility; e.g. the same algorithms can be used with different inverters.
+
+.OpenEMS Edge software architecture
+image::edge-architecture.png[OpenEMS Edge software architecture]
+
+The architecture diagram shows *Hardware* - battery systems, inverters, meters,... - or external services at the bottom. 
+A *Bridge* is the connection layer to a physical hardware device and implements communication protocols like Modbus/TCP, Modbus/RTU or other vendor specific implementations. 
+There can be several devices per Bridge.
+A *Device* represents an external hardware or service as its 'digital twin'. 
+A *Nature* represents a specific class of hardware or service with a defined set of Channels.
+A *Channel* is a single piece of information, which can be readonly (State of charge of a battery, current active power,…) and writable (set active power, switch of relay output).
+
+Example: A FENECON Pro storage system is integrating an energy storage system ("Ess" nature) as well as a "Meter"-Nature for a connected photovoltaics installation. Through the "Ess" nature it provides information about the battery like the current state of charge and charging/discharging power. Through the "Meter" nature it provides information about the current photovoltaic production power.
+
+TIP: In fact every component in OpenEMS Edge is a *Thing* with 'Channels' that are used for abstracting the underlying hardware device or for configuring the Thing itself.
+
+The OpenEMS Edge framework provides internal services that help all the components to interact with each other.
+Examples for those services are the *Databus*, *ThingRepository* and *ClassRepository*. 
+Throughout the source code you will find Java Reflection and Annotations used in order to ease the implementation and integration of all the components.
+
+The actual business logic is in each *Controller*, which is leveraging Channels to execute a specific, encapsulated task, like 'switch a relay output when a certain threshold is exceeded'. 
+Some of the most common Controllers are:
+
+* *AvoidTotalDischargeController* takes care of the secure function of a storage system by avoiding total discharging and force charging the battery from the grid if necessary.
+
+* *BalancingController* optimizes the self-consumption at the grid meter
+
+* *ApiController*-implementations receive commands from external control units
+
+=== Core concepts
+
+==== Things
+
+Every component in OpenEMS Edge is a 'Thing', i.e. it is implementing the link:../edge/src/io/openems/api/thing/Thing.java[Thing interface icon:code[]]. 
+
+By definition each Thing has a unique ID. Thing-IDs are typically:
+
+* `ess0` for the first storage system or battery inverter
+* `ess1` for the second storage system or battery inverter
+* ...
+* `meter0` for the first meter in the system
+* ...
+
+If you receive your OpenEMS together with a FENECON energy storage system, you will have the following Thing-IDs:
+
+`ess0`: link:../edge/src/io/openems/impl/device/pro/FeneconProEss.java[FENECON Pro Ess icon:code[]]
+
+* FENECON Pro
+** `ess0`: link:../edge/src/io/openems/impl/device/pro/FeneconProEss.java[FENECON Pro Ess icon:code[]]
+** `meter0`: link:../edge/src/io/openems/impl/device/socomec/SocomecMeter.java[Socomec grid meter icon:code[]]
+
+  - `meter1`: [FENECON Pro production meter](../edge/src/io/openems/impl/device/pro/FeneconProPvMeter.java)
+- FENECON Mini
+  - `ess0`: [FENECON Mini](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniEss.java)
+  - `meter0`: [FENECON Mini grid meter](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniGridMeter.java)
+  - `meter1`: [FENECON Mini production meter](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniProductionMeter.java)
+
+
+
+==== Channels
+
+Channels were briefly discussed in the <<_architecture>> chapter as single pieces of information. They are implementing the link:../edge/src/io/openems/api/channel/Channel.java[Channel interface icon:code[]]. By definition each Channel has a unique ID within its parent Thing.
+
+The main types of Channels are
+
+* link:../edge/src/io/openems/api/channel/ConfigChannel.java[*ConfigChannel* icon:code[]] is a configuration setting of a Thing
++
+A ConfigChannel is defined as follows: (Example taken from link:../edge/src/io/openems/impl/protocol/modbus/ModbusTcp.java[ModbusTcp Bridge icon:code[]])
++
+[source,java]
+----
+@ChannelInfo(title = "IP address", description = "Sets the IP address (e.g. 10.0.0.15).", type = Inet4Address.class)
+public final ConfigChannel<Inet4Address> ip = new ConfigChannel<Inet4Address>("ip", this)
+----
+
+* link:../edge/src/io/openems/api/channel/ReadChannel.java[*ReadChannel* icon:code[]] is a read-only value
+* link:../edge/src/io/openems/api/channel/WriteChannel.java[*WriteChannel* icon:code[]] is a readable and writable value
+
+Things that are implementing a Nature (like link:../edge/src/io/openems/api/device/nature/ess/EssNature.java[EssNature icon:code[]]) are obligated to provide certain Channels. E.g. the 'EssNature' requires an 'Soc'-Channel which is returning the current 'State of Charge' of the battery.
+
+To find out which Channels are available, there are two ways:
+- General purpose channels are defined in the inherited DeviceNature (like 'EssNature' in the example)
+- Device-specific available channels are defined in the Device itself
+
+For example a link:../edge/src/io/openems/impl/device/pro/FeneconProEss.java[FENECON Pro energy storage system icon:code[]] implements all generic channels from EssNature and many channels which are specific to a FENECON Pro system.
+
+The following, incomplete list, lists some important Channels that are available per Nature:
+
+//TODO: move to Natures below
+
+===== ESS (Energy Storage System)
+
+* link:../edge/src/io/openems/api/device/nature/ess/EssNature.java[EssNature icon:code[]]
+** Soc
+** SystemState
+** AllowedCharge, AllowedDischarge
+** Capacity
+* link:../edge/src/io/openems/api/device/nature/ess/AsymmetricEssNature.java[AsymmetricEssNature icon:code[]] extends EssNature
+** ActivePowerL1, ActivePowerL2, ActivePowerL3
+** ReactivePowerL1, ReactivePowerL2, ReactivePowerL3
+* link:../edge/src/io/openems/api/device/nature/ess/SymmetricEssNature.java[SymmetricEssNature icon:code[]] extends EssNature
+** ActivePower
+** ReactivePower
+* link:../edge/src/io/openems/impl/device/minireadonly/FeneconMiniEss.java[FENECON Mini (readonly) icon:code[]] implements AsymmetricEssNature
+* link:../edge/src/io/openems/impl/device/pro/FeneconProEss.java[FENECON Pro 9-12 icon:code[]] implements AsymmetricEssNature
+* link:../edge/src/io/openems/impl/device/commercial/FeneconCommercialEss.java[FENECON Commercial 40-40 icon:code[]] implements SymmetricEssNature
+
+===== Meter
+
+* link:../edge/src/io/openems/api/device/nature/meter/MeterNature.java[MeterNature icon:code[]]
+** Type
+* link:../edge/src/io/openems/api/device/nature/meter/AsymmetricMeterNature.java[AsymmetricMeterNature icon:code[]] extends MeterNature
+** ActivePowerL1, ActivePowerL2, ActivePowerL3
+** ReactivePowerL1, ReactivePowerL2, ReactivePowerL3
+* link:../edge/src/io/openems/api/device/nature/meter/SymmetricMeterNature.java[SymmetricMeterNature icon:code[]] extends MeterNature
+** ActivePower
+** ReactivePower
+* link:../edge/src/io/openems/impl/device/socomec/SocomecMeter.java[Socomec icon:code[]] implements SymmetricMeterNature and AsymmetricMeterNature
+* link:../edge/src/io/openems/impl/device/pro/FeneconProPvMeter.java[FENECON Pro production meter icon:code[]] implements SymmetricMeterNature and AsymmetricMeterNature
+
+==== Channel Address
+
+By combining the unique Thing-ID and Channel-ID each Channel in the system can be addressed by a distinct 'Channel Address' in the form `Thing-ID/Channel-ID`.
+
+Example: the State of charge ("Soc") of the first storage system ("ess0") has the channel address `ess0/Soc`.
+
+=== Configuration
+
+OpenEMS Edge is using a central configuration file in `etc/openems.d/config.json` where all its components - Bridge, Device, Nature, Scheduler, Controller and Peristence - are defined and configured.
+
+As an example we will discuss a stripped down configuration of a 'FENECON Commercial' energy storage system. More example configurations can be found in the link:../setup/templates[setup templates icon:code[]].
+
+[source,json]
+----
+{
+	"things": [ <1>
+----
+<1> all Bridges, Devices and Natures are defined within the "things" object.
+
+[source,json]
+----
+		{
+			"class": "io.openems.impl.protocol.modbus.ModbusTcp", <1>
+			"ip": "10.4.0.15", <2>
+			"devices": [ <3>
+				{
+					"class": "io.openems.impl.device.commercial.FeneconCommercialAC", <4>
+					"modbusUnitId": 100, <5>
+					"ess": { <6>
+						"id": "ess0", <7>
+						"minSoc": 15
+					}
+				}
+			]
+		},
+----
+<1> defines a Modbus/TCP bridge by its Java implementation class
+// TODO: link to ModbusTcp)
+<2> sets the target IP address of the Modbus/TCP device
+<3> Devices are defined within the "devices" array of a bridge
+<4> defines a 'FENECON Commercial AC' Device by its Java implementation class
+// TODO: link to FeneconCommercialAC
+<5> sets the modbus unit ID (which is always 100 for a FENECON Commercial)
+<6> configures the "Ess" nature of the Device
+<7> sets the unique ID "ess0" for this nature. This ID is going to be used later in the Controllers.
+
+[source,json]
+----
+		{
+			"class": "io.openems.impl.protocol.modbus.ModbusRtu", <1>
+			"serialinterface": "/dev/ttyUSB0", <2>
+			"baudrate": 9600,
+			"databits": 8,
+			"parity": "none",
+			"stopbits": 1,
+			"devices": [
+				{
+					"class": "io.openems.impl.device.socomec.Socomec", <3>
+					"modbusUnitId": 5,
+					"meter": { <4>
+						"id": "meter0", <5>
+						"type": "grid"
+					}
+				}
+			]
+		}
+----
+<1> defines a Modbus/RTU bridge by its Java implementation class
+// TODO: link to ModbusRtu
+<2> configures the RS485-connection (interface, baudrate, databits, parity, stopbits)
+<3> defines a 'Socomec Meter' Device by its Java implementation class
+// TODO: link to Socomec
+<4> configures the "Meter" nature of the Device
+<5> sets the unique ID "meter0" for this nature. This ID is going to be used later in the Controllers.
+
+[source,json]
+----
+	],
+	"scheduler": { <1>
+		"class": "io.openems.impl.scheduler.SimpleScheduler", <2>
+		"controllers": [
+----
+<1> the Scheduler and all Controllers are defined within the "scheduler" object.
+<2> defines the Scheduler by its Java implementation class
+
+NOTE: This configuration uses the 'SimpleScheduler' which is executing the Controllers according to their 'priority' - starting with the highest value.
+// TODO: link to SimpleScheduler
+
+[source,json]
+----
+			{
+				"priority": 150, <1>
+				"class": "io.openems.impl.controller.debuglog.DebugLogController", <2>
+				"esss": "ess0", <3>
+				"meters": "meter0"
+			},
+----
+<1> sets the 'priority' of this Controller. '150' is higher than any other priority in this configuration, so it will be executed first.
+<2> defines the 'DebugLogController' by its Java implementation class 
+// TODO: link to DebugLogController
+<3> this Controller can be configured to take certain IDs for its output.
+
+NOTE: The 'DebugLogController' is helpful for debugging as it logs information about each Nature on every execution. The configuration above will produce continuous outputs like this: +
+`[INFO ] [g.DebugLogController:106] +
+meter0 [L:60 W;-2740 var|L1:0 W;0 var|L2:0 W;0 var|L3:0 W;0 var] +
+ess0 [SOC:99 %|L:600 W;300 var|Allowed:-12000 W;40000 W|GridMode:On-Grid]`
+
+[source,json]
+----
+			{
+				"priority": 100,
+				"class": "io.openems.impl.controller.symmetric.avoidtotaldischarge.AvoidTotalDischargeController", <1>
+				"esss": "ess0"
+			},
+----
+<1> defines the 'AvoidTotalDischargeController' by its Java implementation class 
+// TODO: link to AvoidTotalDischargeController
+
+NOTE: The 'AvoidTotalDischargeController' takes care of the secure function of a storage system by avoiding total discharging and force charging the battery from the grid if necessary.
+
+[source,json]
+----
+			{
+				"priority": 50,
+				"class": "io.openems.impl.controller.symmetric.balancing.BalancingController", <1>
+				"esss": "ess0",
+				"meter": "meter0"
+			}
+----
+<1> defines the 'BalancingController' by its Java implementation class 
+// TODO: link to BalancingController
+
+NOTE: The 'BalancingController' optimizes the self-consumption of a local electric generator like a photovoltaics installation. It watches the grid-meter and tries to keep it on zero by charging or discharching the battery.
+
+[source,json]
+----
+		]
+	},
+	"persistence": [ <1>
+----
+<1> the Persistence services are defined within the "persistence" array.
+
+[source,json]
+----
+		{
+			"class": "io.openems.impl.persistence.influxdb.InfluxdbPersistence", <1>
+			"ip": "127.0.0.1", <2>
+			"fems": "0" <3>
+		},
+----
+<1> defines the 'InfluxdbPersistence' by its Java implementation class
+// TODO: link to InfluxdbPersistence
+<2> sets the IP address of the InfluxDB server.
+<3> sets the "fems"-ID which allows multiple OpenEMS instances to store data to the same InfluxDB.
+
+NOTE: The 'InfluxdbPersistence' stores the continuous data of all Channels in an https://www.influxdata.com/[InfluxDB].
+
+[source,json]
+----
+		{
+			"class": "io.openems.impl.persistence.fenecon.FeneconPersistence", <1>
+			"apikey": "###APIKEY###" <2>
+		}
+----
+<1> defines the 'FeneconPersistence' by its Java implementation class 
+// TODO: link to FeneconPersistence
+<2> sets the apikey which authenticates this OpenEMS at the Backend
+
+NOTE: The 'FeneconPersistence' is handling the connection to the OpenEMS Backend server.
+
+[source,json]
+----
+	]
+}
+----
+
+=== Hardware Abstraction
+	
+ * Bridges, Devices & Natures
+
+==== Available Natures
+
+==== Implemented hardware
+
+==== Connecting a Modbus Device
+
+=== Scheduler
+
+==== Existing Schedulers
+
+==== Developing a Scheduler
+
+=== Controller
+
+==== Existing Controllers
+ * APIs, Websocket: Protocol
+
+==== Developing a Controller
+
+=== Persistence
+ * ...
+ Grafana
+
+== UI
+
+=== Architecture
+
+=== Configuration
+
+=== FAQ
+ * negative consumption
+
+== Backend
+
+=== Architecture
+
+=== Configuration
