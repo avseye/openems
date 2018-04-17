@@ -444,6 +444,169 @@ NOTE: The 'FeneconPersistence' is handling the connection to the OpenEMS Backend
 ==== Implemented hardware
 
 ==== Connecting a Modbus Device
+     Connecting a Modbus Device includes five sections as bridge, device, deviceNature, channel, and controllers as determined in architecture part.
+This tutorial is about how to implement  a modbus device to the openEMS system. To implement a device we will follow the openEMS architecture.       
+
+   First of all, it needs to be created a new project in .../impl/device/newDeviceName...
+
+Then needs to be created a new device file as seen at the link:https://github.com/OpenEMS/openems/blob/master/doc/architecture.md[architecture</>]
+
+  .../impl/device/newDeviceName/newDeviceName.java
+
+     This file, consist from constructor,config and method parts, and it defines about the device that what kind of nature,bridge and methods it has.
+     After then, needs to determined which modbus protocol should use for make a communication which is  seen at the bridge part of architecture.
+In this part, it only needs to writen that lines what is given below, inside of device file ;     
+.../impl/device/newDeviceName/newDeviceName.java
+
+[source,java]
+----
+public Socomec(Bridge parent) throws OpenemsException {
+	super(parent);
+}	
+----
+
+
+It can be given this file as an example link:../edge/src/io/openems/impl/device/socomec/Socomec.java[Socomec icon:code[]].
+
+And the config part is about channel configuration and definition of nature, and it must be include this lines;
+
+[source,java]
+----
+ @ChannelInfo(title = "nature", description = "Sets the 'nature' nature.", type = DeviceNameNature.class)
+	public final ConfigChannel<DeviceNameNature> nature = new ConfigChannel<DeviceNameNature>("nature", this).addChangeListener(this);
+----
+You can examine the config part of this file as an example link:../edge/src/io/openems/impl/device/socomec/Socomec.java[Socomec icon:code[]].
+
+And at the method part; 
+Needs to just write like as socomec device.
+
+[source,java]
+----
+		 @Override
+		protected Set<DeviceNature> getDeviceNatures() {
+		    Set<DeviceNature> natures = new HashSet<>();
+			if (meter.valueOptional().isPresent()) {
+				natures.add(meter.valueOptional().get());
+			}
+		return natures;
+	}
+----
+				
+
+  
+And next step would be create a new file as a device nature at -> ../edge/src/io/openems/impl/device/newDeviceName/newDeviceNameNature.java
+
+for example; link:../edge/src/io/openems/impl/device/socomec/SocomecMeter.java[Socomec icon:code[]]
+
+     It can be found more details about the DeviceNature on architecture section.
+     When the devices using the Modbus communication protocol are integrated into the OpenEMS system, the method part of the DeviceNature file is created considering the bit length, type and whether if they are just read, write or both,of the register and/or coils.
+To make a clear registers and coils are classified as follows; 
+And Method part of DeviceNature file and the important points are;
+
+First of all deviceNature file have to extends deviceNature;
+Extends and implements Modbus Device Nature and device nature
+Ex;
+[source,java]
+----
+@ThingInfo(title = "Device Name")
+public class DeviceName extends ModbusDeviceNature implements deviceNature{
+
+	public deviceName(String thingId, Device parent) throws ConfigException {
+		super(thingId, parent);
+	}
+
+private ThingStateChannels thingState = new ThingStateChannels(this); 
+----
+
+
+[source,java]
+----
+        ModbusProtocol protocol = new ModbusProtocol( // 
+	            new ModbusRegisterRange(startAddress, elements) 
+	 			
+Ex;	    ModbusProtocol protocol = new ModbusProtocol( // 
+				 new ModbusRegisterRange(0, // 
+				 );
+		Return protocol;
+		)
+----
+
+
+[source,java]
+----
+Unsigned Word Element(u16);
+
+new UnsignedWordElement(address,channel)
+ex;  new UnsignedWordElement(address, registerName = ModbusReadLongChannel("Description",  nature(must be =this))), //
+----
+
+[source,java]
+----
+Signed Word Element(s16)
+
+new SignedWordElement(address, channel)
+ex; new SignedWordElement(address, registerName= new ModbusReadLongChannel("Description", this))),//
+----
+
+[source,java]
+----
+Ignoring the read registers;
+
+new DummyElement(number), //    or	new DummyElement(number, number),//
+----
+
+[source,java]
+----
+Unsigned Double Element(u32);
+
+new UnsignedDoublewordElement(address, channel)
+ex; new UnsignedDoublewordElement(address, registerName= new ModbusReadLongChannel("Description", this),//
+----
+
+[source,java]
+----
+Signed Double Element(s32);
+
+new SignedWordElement(address, channel),//
+ex; new SignedDoublewordElement(address, registerName= new ModbusReadLongChannel("Description", this),//
+----
+
+[source,java]
+----
+Define Coil Range
+
+new ModbusCoilRange(startAddress, elements)
+ex;new ModbusCoilRange(2, //
+);
+----
+
+[source,java]
+----
+Define Coil Element;
+
+Ex; new CoilElement(address, coilName= new ModbusCoilReadChannel("Description", this)), //
+----
+
+[source,java]
+----
+Ignoring the coils
+
+Ex; new DummyCoilElement(11, 17), //
+----
+
+[source,java]
+----
+And channels can be define as follows;
+
+/*Channels */
+ 	public ModbusReadLongChannel registerName;
+	public ModbusWriteLongChannel registerName;
+	public ModbusCoilReadChannel coilName;
+	public ModbusCoilWriteChannel coilName;
+----
+
+     And Later on, need to create a controller; The actual business logic is in the "Controller", where each of them holds specific, encapsulated tasks.For more details have a look at architecture section.As an example;
+link:../edge/src/io/openems/impl/controller/feneconprosetup/FeneconProSetupController.java
 
 === Scheduler
 
