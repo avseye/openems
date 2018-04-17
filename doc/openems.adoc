@@ -189,14 +189,12 @@ If you receive your OpenEMS together with a FENECON energy storage system, you w
 * FENECON Pro
 ** `ess0`: link:../edge/src/io/openems/impl/device/pro/FeneconProEss.java[FENECON Pro Ess icon:code[]]
 ** `meter0`: link:../edge/src/io/openems/impl/device/socomec/SocomecMeter.java[Socomec grid meter icon:code[]]
+** `meter1`: link:../edge/src/io/openems/impl/device/pro/FeneconProPvMeter.java[FENECON Pro production meter icon:code[]]
 
-  - `meter1`: [FENECON Pro production meter](../edge/src/io/openems/impl/device/pro/FeneconProPvMeter.java)
-- FENECON Mini
-  - `ess0`: [FENECON Mini](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniEss.java)
-  - `meter0`: [FENECON Mini grid meter](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniGridMeter.java)
-  - `meter1`: [FENECON Mini production meter](../edge/src/io/openems/impl/device/minireadonly/FeneconMiniProductionMeter.java)
-
-
+* FENECON Mini
+** `ess0`: link:../edge/src/io/openems/impl/device/minireadonly/FeneconMiniEss.java[FENECON Mini icon:code[]]
+** `meter0`: link:../edge/src/io/openems/impl/device/minireadonly/FeneconMiniGridMeter.java[FENECON Mini grid meter icon:code[]]
+** `meter1`: link:../edge/src/io/openems/impl/device/minireadonly/FeneconMiniProductionMeter.java[FENECON Mini production meter icon:code[]]
 
 ==== Channels
 
@@ -437,9 +435,207 @@ NOTE: The 'FeneconPersistence' is handling the connection to the OpenEMS Backend
 
 === Hardware Abstraction
 	
- * Bridges, Devices & Natures
+The hardware abstraction was briefly discussed in the <<_architecture>> chapter.
+
+==== Implemented Bridges and Protocols
+
+A *Bridge* represents the connection layer to a physical hardware device and implements communication protocols like Modbus/TCP, Modbus/RTU or other vendor specific implementations.
+
+The following bridges and protocols are currently implemented in OpenEMS:
+
+===== Modbus/TCP
+
+https://en.wikipedia.org/wiki/Modbus[Modbus/TCP icon:external-link[]] is a widely used standard for fieldbus connections via TCP/IP network. It is used by all kinds of hardware devices like photovoltaics inverters, electric meters, and so on.
+
+OpenEMS configuration:
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusTcp",
+	"ip": "192.168.0.1", <1>
+	"port": 502, <2>
+	"devices": [
+		... <3>
+	]
+}
+----
+<1> IP address
+<2> Port (optional, defaults to `502`)
+<3> Configuration of deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/modbus/ModbusTcp.java[io.openems.impl.protocol.modbus.ModbusTcp icon:code[]]
+
+===== Modbus/RTU
+
+https://en.wikipedia.org/wiki/Modbus[Modbus/RTU icon:external-link[]] is a widely used standard for fieldbus connections via RS485 bus. It is used by all kinds of hardware devices like photovoltaics inverters, electric meters, and so on.
+
+OpenEMS configuration:
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusRtu",
+	"serialinterface": "/dev/ttyUSB0", <1>
+	"baudrate": 9600, <2>
+	"databits": 8, <3>
+	"parity": "none", <4>
+	"stopbits": 1, <5>
+	"devices": [
+		... <6>
+	]
+}
+----
+<1> Serial interface (e.g. `/dev/ttyUSB0`, `COM3`)
+<2> RS485 baudrate (e.g. `9600`, `19200`, `38400`, `115200`)
+<3> RS485 databits (e.g. `8`)
+<4> RS485 parity (e.g. `none`, `even`, `odd`)
+<5> RS485 stopbits (e.g. `1`, `1.5`, `2`)
+<3> Configuration of deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/modbus/ModbusRtu.java[io.openems.impl.protocol.modbus.ModbusRtu icon:code[]]
+
+===== Simulator
+
+The Simulator bridge provides the base for Simulator natures. It has no specific configuration in itself, as the configuration is happening in the DeviceNatures.
+
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.simulator.SimulatorBridge",
+	"devices": [
+		... <1>
+	]
+}
+----
+<1> Configuration of KEBA deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/simulator/SimulatorBridge.java[io.openems.impl.protocol.simulator.SimulatorBridge icon:code[]]
+
+===== KEBA KeContact
+
+The KEBA KeContact bridge is an implementation of the UDP protocol for KEBA KeContact electric vehicle charging stations. It has no specific configuration in itself, as the configuration is happening in the DeviceNature.
+
+OpenEMS configuration:
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.keba.KebaBridge",
+	"devices": [
+		... <1>
+	]
+}
+----
+<1> Configuration of KEBA deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/keba/KebaBridge.java[io.openems.impl.protocol.keba.KebaBridge icon:code[]]
+
+===== Studer
+
+The Studer bridge is implementing the proprietary RS485 protocol of Studer battery chargers.
+
+OpenEMS configuration:
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.studer.StuderBridge",
+	"serialinterface": "/dev/ttyUSB0", <1>
+	"address": 1, <2>
+	"devices": [
+		... <3>
+	]
+}
+----
+<1> Serial interface (e.g. `/dev/ttyUSB0`, `COM3`)
+<2> Source address
+<3> Configuration of Studer deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/studer/StuderBridge.java[io.openems.impl.protocol.studer.StuderBridge icon:code[]]
+
+===== System
+
+The System bridge provides the base for System natures. It has no specific configuration in itself, as the configuration is happening in the DeviceNatures.
+
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.system.SystemBridge",
+	"devices": [
+		... <1>
+	]
+}
+----
+<1> Configuration of System deviceNatures (see below)
+
+Implementation: link:../edge/src/io/openems/impl/protocol/system/SystemBridge.java[io.openems.impl.protocol.system.SystemBridge icon:code[]]
 
 ==== Available Natures
+
+The hardware abstraction was briefly discussed in the <<_architecture>> chapter.
+A *Device* represents an external hardware or service as its 'digital twin'. A Nature represents a specific class of hardware or service with a defined set of Channels, like an energy storage system ("EssNature") or an electric meter ("MeterNature").
+
+The following natures are currently available in OpenEMS:
+
+===== Charger
+
+A Charger is a solar charger that is connected to DC side of an energy storage system. Example: FENECON Commercial DC comes with two Chargers.
+
+* link:../edge/src/io/openems/api/device/nature/charger/ChargerNature.java[ChargerNature icon:code[]]
+
+===== Energy Storage System (ESS)
+
+An Energy Storage System is an integrated system with battery and battery inverter. Example: FENECON Pro 9-12, FENECON Mini.
+
+* link:../edge/src/io/openems/api/device/nature/ess/EssNature.java[EssNature icon:code[]]
+** *GridMode*: Off-Grid/On-Grid state
+** *Soc*: State of Charge in percent [%].
+** *AllowedCharge*/*AllowedDischarge*: maximum allowed charge/discharge power in Watt [W].
+** *Capacity*: capacity of the battery in Watt-hours [Wh].
+** *MaxNominalPower*: maximum nominal power in Watt [W].
+
+* link:../edge/src/io/openems/api/device/nature/ess/EssSymmetricNature.java[EssSymmetricNature icon:code[]]
+** *ActivePower*: charge/discharge active power in Watt [W].
+** *ReactivePower*: charge/discharge reactive power in volt-ampere reactive [var].
+** *ApparentPower*: apparent power in volt-ampere [VA].
+
+* link:../edge/src/io/openems/api/device/nature/ess/AsymmetricEssNature.java[AsymmetricEssNature icon:code[]]
+** *ActivePowerL1*: charge/discharge active power on L1 in Watt [W].
+** *ActivePowerL2*
+** *ActivePowerL3*
+** *ReactivePowerL1*: charge/discharge reactive power on L1 in volt-ampere reactive [var].
+** *ReactivePowerL2*
+** *ReactivePowerL3*
+
+===== Electric Vehicle Charging Station (EVCS)
+
+A charging station for electric vehicles like e-cars and e-buses. Example: KEBA KeContact.
+
+* link:../edge/src/io/openems/api/device/nature/evcs/EvcsNature.java[EvcsNature icon:code[]]
+** *SetCurrent*: set the charge current in milliampere [mA]
+
+===== Digital Input/Output
+
+Digital inputs and digital/relay outputs. Example: WAGO 750 Fieldbus, KMTronic Relais Board.
+
+* link:../edge/src/io/openems/api/device/nature/io/InputNature.java[InputNature icon:code[]]
+* link:../edge/src/io/openems/api/device/nature/io/OutputNature.java[OutputNature icon:code[]]
+
+===== Electric Meter
+
+Electric meter. Example: Meter at grid connection point, Socomec meter.
+
+* link:../edge/src/io/openems/api/device/nature/meter/MeterNature.java[MeterNature icon:code[]]
+** *Type*: type of the meter, e.g. "grid", "production"
+
+* link:../edge/src/io/openems/api/device/nature/meter/SymmetricMeterNature.java[SymmetricMeterNature icon:code[]]
+** *ActivePower*: measured active power in Watt [W].
+** *ReactivePower*: measured reactive power in volt-ampere reactive [var].
+
+* link:../edge/src/io/openems/api/device/nature/meter/AsymmetricMeterNature.java[AsymmetricMeterNature icon:code[]]
+** *ActivePowerL1*: measured active power on L1 in Watt [W].
+** *ActivePowerL2*
+** *ActivePowerL3*
+** *ReactivePowerL1*: measured reactive power on L1 in volt-ampere reactive [var].
+** *ReactivePowerL2*
+** *ReactivePowerL3*
 
 ==== Implemented hardware
 
