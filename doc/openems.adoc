@@ -8,6 +8,7 @@ Version 2018.4
 :keywords: AsciiDoc
 :source-highlighter: highlight.js
 :imagesdir: ./img
+:includedir: ./sections
 :icons: font
 
 == Introduction
@@ -622,13 +623,16 @@ Digital inputs and digital/relay outputs. Example: WAGO 750 Fieldbus, KMTronic R
 
 Electric meter. Example: Meter at grid connection point, Socomec meter.
 
+[[MeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/MeterNature.java[MeterNature icon:code[]]
 ** *Type*: type of the meter, e.g. "grid", "production"
 
+[[SymmetricMeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/SymmetricMeterNature.java[SymmetricMeterNature icon:code[]]
 ** *ActivePower*: measured active power in Watt [W].
 ** *ReactivePower*: measured reactive power in volt-ampere reactive [var].
 
+[[AsymmetricMeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/AsymmetricMeterNature.java[AsymmetricMeterNature icon:code[]]
 ** *ActivePowerL1*: measured active power on L1 in Watt [W].
 ** *ActivePowerL2*
@@ -637,7 +641,28 @@ Electric meter. Example: Meter at grid connection point, Socomec meter.
 ** *ReactivePowerL2*
 ** *ReactivePowerL3*
 
-==== Implemented hardware
+==== Implemented devices
+
+The following devices are already implemented in OpenEMS Edge:
+
+===== B-Control Energy Meter
+
+.Details on B-Control Energy Meter
+|===
+|Bridge |<<_modbus_tcp>>
+1.3+|Implemented Natures | <<MeterNature>>
+| <<SymmetricMeterNature>>
+| <<AsymmetricMeterNature>>
+|More information |https://www.b-control.com/en/products/em-300.html[Manufacturer icon:external-link[]]
+|===
+
+.Channels of B-Control Energy Meter
+[options="header"]
+|===
+|Channel-ID |Unit/Range |Comment
+include::sections/channels/MeterNature.adoc[]
+|===
+
 
 ==== Connecting a Modbus Device
      Connecting a Modbus Device includes five sections as bridge, device, deviceNature, channel, and controllers as determined in architecture part.
