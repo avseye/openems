@@ -2,8 +2,9 @@
 Stefan Feilmeier (c) 2017 FENECON GmbH
 Version 2018.4
 :sectnums:
+:sectnumlevels: 5
 :toc:
-:toclevels: 4
+:toclevels: 5
 :experimental:
 :keywords: AsciiDoc
 :source-highlighter: highlight.js
@@ -661,8 +662,47 @@ The following devices are already implemented in OpenEMS Edge:
 |===
 |Channel-ID |Unit/Range |Comment
 include::sections/channels/MeterNature.adoc[]
+include::sections/channels/AsymmetricMeterNature.adoc[]
+include::sections/channels/SymmetricMeterNature.adoc[]
+3+|*Specific to BControlMeter*
+|ActivePowerPos            |W       |
+|ActivePowerNeg            |W       |
+|ReactivePowerPos          |Var     |
+|ReactivePowerNeg          |Var     |
+|ApparentPowerPos          |VA      |
+|ApparentPowerNeg          |VA      |
+|ActivePowerL2Pos          |W       |
+|ActivePowerL2Neg          |W       |
+|ReactivePowerL2Pos        |Var     |
+|ReactivePowerL2Neg        |Var     |
+|ActivePowerL1Pos          |W       |
+|ActivePowerL1Neg          |W       |
+|ReactivePowerL1Pos        |Var     |
+|ReactivePowerL1Neg        |Var     |
+|ActivePowerL3Pos          |W       |
+|ActivePowerL3Neg          |W       |
+|ReactivePowerL3Pos        |Var     |
+|ReactivePowerL3Neg        |Var     |
 |===
 
+.Example Configuration
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusTcp",
+	"ip": "192.168.0.1",
+	"devices": [
+		{
+			"class": "io.openems.impl.device.bcontrol.BControl",
+			"modbusUnitId": 1,
+			"meter": {
+				"id": "meter0",
+				"type": "grid"
+			}
+		}
+	]
+},
+----
 
 ==== Connecting a Modbus Device
      Connecting a Modbus Device includes five sections as bridge, device, deviceNature, channel, and controllers as determined in architecture part.
