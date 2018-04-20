@@ -9,7 +9,6 @@ Version 2018.4-SNAPSHOT
 :keywords: AsciiDoc
 :source-highlighter: highlight.js
 :imagesdir: ./img
-:includedir: ./sections
 :icons: font
 
 == Introduction
@@ -582,6 +581,9 @@ A Charger is a solar charger that is connected to DC side of an energy storage s
 
 * link:../edge/src/io/openems/api/device/nature/charger/ChargerNature.java[ChargerNature icon:code[]]
 
+[[EssNature]]
+[[EssSymmetricNature]]
+[[AsymmetricEssNature]]
 ===== Energy Storage System (ESS)
 
 An Energy Storage System is an integrated system with battery and battery inverter. Example: FENECON Pro 9-12, FENECON Mini.
@@ -606,6 +608,7 @@ An Energy Storage System is an integrated system with battery and battery invert
 ** *ReactivePowerL2*
 ** *ReactivePowerL3*
 
+[[EvcsNature]]
 ===== Electric Vehicle Charging Station (EVCS)
 
 A charging station for electric vehicles like e-cars and e-buses. Example: KEBA KeContact.
@@ -613,6 +616,8 @@ A charging station for electric vehicles like e-cars and e-buses. Example: KEBA 
 * link:../edge/src/io/openems/api/device/nature/evcs/EvcsNature.java[EvcsNature icon:code[]]
 ** *SetCurrent*: set the charge current in milliampere [mA]
 
+[[InputNature]]
+[[OutputNature]]
 ===== Digital Input/Output
 
 Digital inputs and digital/relay outputs. Example: WAGO 750 Fieldbus, KMTronic Relais Board.
@@ -620,20 +625,20 @@ Digital inputs and digital/relay outputs. Example: WAGO 750 Fieldbus, KMTronic R
 * link:../edge/src/io/openems/api/device/nature/io/InputNature.java[InputNature icon:code[]]
 * link:../edge/src/io/openems/api/device/nature/io/OutputNature.java[OutputNature icon:code[]]
 
+[[MeterNature]]
+[[SymmetricMeterNature]]
+[[AsymmetricMeterNature]]
 ===== Electric Meter
 
 Electric meter. Example: Meter at grid connection point, Socomec meter.
 
-[[MeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/MeterNature.java[MeterNature icon:code[]]
 ** *Type*: type of the meter, e.g. "grid", "production"
 
-[[SymmetricMeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/SymmetricMeterNature.java[SymmetricMeterNature icon:code[]]
 ** *ActivePower*: measured active power in Watt [W].
 ** *ReactivePower*: measured reactive power in volt-ampere reactive [var].
 
-[[AsymmetricMeterNature]]
 * link:../edge/src/io/openems/api/device/nature/meter/AsymmetricMeterNature.java[AsymmetricMeterNature icon:code[]]
 ** *ActivePowerL1*: measured active power on L1 in Watt [W].
 ** *ActivePowerL2*
@@ -1610,11 +1615,110 @@ include::sections/channels/ChargerNature.adoc[]
 
 ===== Janitza UMG96RM Meter
 
-// TODO
+====== Details
+|===
+2+|Bridge |<<_modbus_tcp>>
+1.3+|Implemented Natures |meter | <<MeterNature>>
+| | <<SymmetricMeterNature>>
+| | <<AsymmetricMeterNature>>
+2+|More information |https://www.janitza.de/umg-96rm-e.html[Manufacturer icon:external-link[]]
+|===
+
+====== Channels
+[options="header"]
+|===
+|Channel-ID |Unit/Range |Comment
+include::sections/channels/Thing.adoc[]
+include::sections/channels/MeterNature.adoc[]
+include::sections/channels/AsymmetricMeterNature.adoc[]
+include::sections/channels/SymmetricMeterNature.adoc[]
+3+|*Specific to Janitza UMG96RM Meter*
+|===
+
+====== Example Configuration
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusTcp",
+	"ip": "192.168.0.1",
+	"devices": [
+		{
+			"class": "io.openems.impl.device.janitza.JanitzaUMG96RMEMeter",
+			"modbusUnitId": 1,
+			"meter": {
+				"id": "meter0",
+				"type": "grid"
+			}
+		}
+	]
+},
+----
 
 ===== KEBA KeContact EVCS
 
-// TODO
+====== Details
+|===
+2+|Bridge |<<_keba_kecontact>>
+|Implemented Natures |evcs | <<EvcsNature>>
+2+|More information |https://www.keba.com/de/emobility/products/product-overview/produktubersicht[Manufacturer icon:external-link[]]
+|===
+
+====== Channels
+[options="header"]
+|===
+|Channel-ID |Unit/Range |Comment
+include::sections/channels/Thing.adoc[]
+include::sections/channels/EvcsNature.adoc[]
+3+|*Specific to KEBA KeContact EVCS*
+|Product        | | Model name
+|Serial         | | Serial number
+|Firmware       | | Firmware version
+|ComModule      | | Communication module is installed; KeContact P30 only
+|State          |0=starting, 1=not ready for charging, 2=ready for charging, 3=charging, 4=error, 5=authentication rejected |
+|Error1         | | 
+|Error2         | | 
+|Plug           |0=unplugged, 1=plugged on charging station, 3=plugged on charging station + locked, 5=plugged on charging station + plugged on EV, 7=plugged on charging station + locked + plugged on EV |
+|EnableSys      | | Enable state for charging (contains Enable input, RFID, UDP,..)
+|EnableUser     | | Enable condition via UDP
+|MaxCurr        |mA | Current preset value via Control pilot in milliampere
+|MaxCurrPercent |0.1 % | Current preset value via Control pilot in 0,1% of the PWM value
+|CurrHardware   | | Highest possible charging current of the charging connection. Contains device maximum, DIP-switch setting, cable coding and temperature reduction
+|CurrFailsafe	| | Current preset value for the Failsafe function
+|TimeoutFailsafe | | Communication timeout before triggering the Failsafe function
+|CurrTimer		| | Shows the current preset value of currtime
+|TimeoutCT		| | Shows the remaining time until the current value is accepted
+|EnergyLimit	| | Shows the set energy limit
+|Output			| | State of the output X2
+|Input			| | State of the potential free Enable input X1. When using the input, please pay attention to the information in the installation manual.
+|VoltageL1		|V |
+|VoltageL2		|V |
+|VoltageL3		|V |
+|CurrentL1		|mA |
+|CurrentL2		|mA |
+|CurrentL3		|mA |
+|ActualPower	|mW |Current power in mW (Real Power)
+|CosPhi			|0.1 % |Power factor in 0,1% (cosphi)
+|EnergySession	|0.1 Wh |Power consumption of the current loading session in 0,1Wh; Reset with new loading session (state = 2)
+|EnergyTotal	|0.1 Wh |Total power consumption (persistent) without current loading session 0,1Wh; Is summed up after each completed charging session (state = 0)
+|SetDisplay		| |Text shown on the display. Maximum 23 ASCII characters can be used
+|===
+
+====== Example Configuration
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.keba.KebaBridge",
+	"devices": [
+		{
+			"class": "io.openems.impl.device.keba.Keba",
+			"ip": "192.168.25.11",
+			"evcs": {
+				"id": "evcs0"
+			}
+		}
+	]
+}
+----
 
 ===== KippZonen Pyranometer
 
