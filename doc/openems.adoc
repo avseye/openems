@@ -2117,7 +2117,45 @@ include::sections/channels/SymmetricMeterNature.adoc[]
 
 ===== PQ Plus UMD 97 Meter
 
-// TODO
+====== Details
+|===
+2+|Bridge |<<_modbus_tcp>>
+1.2+|Implemented Natures |meter | <<MeterNature>>
+| | <<SymmetricMeterNature>>
+2+|More information |http://www.pq-plus.de/news/pqplus/umd-97-messgeraet.html[Manufacturer icon:external-link[]]
+|===
+
+====== Channels
+[options="header"]
+|===
+|Channel-ID |Unit/Range |Comment
+include::sections/channels/Thing.adoc[]
+include::sections/channels/MeterNature.adoc[]
+include::sections/channels/SymmetricMeterNature.adoc[]
+3+|*Specific to PQ Plus UMD 97 Meter*
+|CosPhiL1            |       |
+|CosPhiL2            |       |
+|CosPhiL3            |       |
+|===
+
+====== Example Configuration
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusTcp",
+	"ip": "192.168.0.1",
+	"devices": [
+		{
+			"class": "io.openems.impl.device.pqplus.PqPlusUMD97Meter",
+			"modbusUnitId": 1,
+			"meter": {
+				"id": "meter0",
+				"type": "grid"
+			}
+		}
+	]
+},
+----
 
 ===== FENECON Pro 9-12
 
