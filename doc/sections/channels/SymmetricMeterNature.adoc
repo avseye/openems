@@ -1,4 +1,4 @@
-3+|*<<SymmetricMeterNature>>*
+3+|*<<SymmetricMeterNature,SymmetricMeterNature>>*
 |ActivePower    |Watt   |
 |ReactivePower  |var    |
 |ApparentPower  |VA     |

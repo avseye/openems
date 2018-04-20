@@ -1,4 +1,4 @@
-3+|*<<AsymmetricMeterNature>>*
+3+|*<<AsymmetricMeterNature,AsymmetricMeterNature>>*
 |ActivePowerL1      |Watt   |
 |ActivePowerL2      |Watt   |
 |ActivePowerL3      |Watt   |
