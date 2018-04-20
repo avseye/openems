@@ -2161,7 +2161,7 @@ include::sections/channels/SymmetricMeterNature.adoc[]
 
 ====== Details
 |===
-2+|Bridge |<<_modbus_tcp>>
+2+|Bridge |<<_modbus_rtu>>
 1.6+|Implemented Natures 1.3+|ess |<<EssNature>>
 |<<AsymmetricEssNature>>
 |<<RealTimeClockNature>>
@@ -2451,6 +2451,7 @@ include::sections/channels/Thing.adoc[]
 include::sections/channels/MeterNature.adoc[]
 include::sections/channels/AsymmetricMeterNature.adoc[]
 include::sections/channels/SymmetricMeterNature.adoc[]
+|===
 
 ====== Example Configuration
 [source,json]
@@ -2492,7 +2493,54 @@ include::sections/channels/SymmetricMeterNature.adoc[]
 
 ===== Socomec Meter
 
-// TODO
+====== Details
+|===
+2+|Bridge |<<_modbus_rtu>>
+1.3+|Implemented Natures |meter | <<MeterNature,MeterNature>>
+| | <<SymmetricMeterNature,SymmetricMeterNature>>
+| | <<AsymmetricMeterNature,AsymmetricMeterNature>>
+2+|More information |https://www.socomec.com/single-circuit-multifunction-meters_en.html[Manufacturer icon:external-link[]]
+|===
+
+====== Channels
+[options="header"]
+|===
+|Channel-ID |Unit/Range |Comment
+include::sections/channels/Thing.adoc[]
+include::sections/channels/MeterNature.adoc[]
+include::sections/channels/AsymmetricMeterNature.adoc[]
+include::sections/channels/SymmetricMeterNature.adoc[]
+3+|*Specific to Socomec Meter*
+|ActivePositiveEnergy      |kWh     |
+|ReactivePositiveEnergy    |kvarh   |
+|ApparentEnergy            |kVAh    |
+|ActiveNegativeEnergy      |kWh     |
+|ReactiveNegativeEnergy    |kvarh   |
+|Current                   |mA      |
+|===
+
+====== Example Configuration
+[source,json]
+----
+{
+	"class": "io.openems.impl.protocol.modbus.ModbusRtu",
+	"serialinterface": "/dev/ttyUSB0",
+	"baudrate": 9600,
+	"databits": 8,
+	"parity": "none",
+	"stopbits": 1,
+	"devices": [
+		{
+			"class": "io.openems.impl.device.socomec.Socomec",
+			"modbusUnitId": 5,
+			"meter": {
+				"id": "meter0",
+				"type": "grid"
+			}
+		}
+	]
+}
+----
 
 ===== Spanner re²
 
