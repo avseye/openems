@@ -1,6 +1,6 @@
 = OpenEMS: Open Energy Management System
-Stefan Feilmeier (c) 2017 FENECON GmbH
-Version 2018.4-SNAPSHOT
+Stefan Feilmeier (c) 2018 FENECON GmbH
+Version 2018.7-SNAPSHOT
 :sectnums:
 :sectnumlevels: 4
 :toc:
